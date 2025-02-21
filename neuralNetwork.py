@@ -32,7 +32,7 @@ class neuralNetwork:
             0.0, pow(self.hnodes, -0.5), (self.hnodes, self.inodes)
         )
         self.who = np.random.normal(
-            0.0, pow(self.onodes, -0.5), (self.hnodes, self.inodes)
+            0.0, pow(self.onodes, -0.5), (self.onodes, self.hnodes)
         )
 
         # learning rate
@@ -54,19 +54,29 @@ class neuralNetwork:
         # convert input list to 2d array: converts a list into a list of lists and transposes it so this gives 3x1 matrix if input_list = [1.2, 2.3, 3.2] for example
         inputs = np.array(input_list, ndmin=2).T
         targets = np.array(target_list, ndmin=2).T
+        # print("targets: {}".format(targets.shape))
 
         # calculate signals into hidden layer
         hidden_inputs = np.dot(self.wih, inputs)
+        # print("self.wih: {}".format(np.shape(self.wih)))
+        # print("inputs: {}".format(inputs.shape))
+        # print("hidden_inputs: {}".format(np.shape(hidden_inputs)))
+
         # calculate signals emerging out of hidden layer
         hidden_outputs = self.activation_function(hidden_inputs)
 
+        # print("self.who: {}".format(np.shape(self.who.shape)))
+        # print("hidden_outputs: {}".format(np.shape(hidden_outputs)))
         # calculate signals into output layer
         final_inputs = np.dot(self.who, hidden_outputs)
+        # print("final_inputs: {}".format(np.shape(final_inputs)))
         # calculate signals emerging out of output layer
         final_outputs = self.activation_function(final_inputs)
 
         # error is the (target - predicted)
-        output_errors = targets - final_outputs
+        output_errors = (
+            targets - final_outputs
+        )  # todo: experiment by changing this logic when using cross entropy; corresponding activation function changes as well in final layer
 
         # hidden layer error is the output errors split by weights, recombined at hidden nodes
         hidden_errors = np.dot(self.who.T, output_errors)
