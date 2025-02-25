@@ -2,6 +2,7 @@ from neuralNetwork import neuralNetwork
 import numpy as np
 import matplotlib.pyplot
 
+import scipy.ndimage
 import scipy.misc
 import glob
 
@@ -19,7 +20,7 @@ def main():
     nn = neuralNetwork(input_nodes, hidden_nodes, output_nodes, learning_rate)
 
     # reading the sample train file & loading into list
-    train_data_file = open("data/mnist_train.csv", "r")
+    train_data_file = open("data/mnist_train_100.csv", "r")
     train_data_list = train_data_file.readlines()
     train_data_file.close()
 
@@ -52,6 +53,18 @@ def main():
             # set the corresponding label to 0.99
             targets[int(all_values[0])] = 0.99
             nn.train(inputs, targets)
+
+            ## create rotated variations
+            # rotated anticlockwise by x degrees
+            inputs_plusx_img = scipy.ndimage.interpolation.rotate(
+                inputs.reshape(28, 28), 10, cval=0.01, order=1, reshape=False
+            )
+            nn.train(inputs_plusx_img.reshape(784), targets)
+            # rotated clockwise by x degrees
+            inputs_minusx_img = scipy.ndimage.interpolation.rotate(
+                inputs.reshape(28, 28), -10, cval=0.01, order=1, reshape=False
+            )
+            nn.train(inputs_minusx_img.reshape(784), targets)
 
     # load the test dataset into memory
     test_data_file = open("data/mnist_test.csv", "r")
