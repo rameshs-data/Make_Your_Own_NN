@@ -1,3 +1,5 @@
+from src.NNFromScratch.logging import logger
+
 from neuralNetwork import neuralNetwork
 import numpy as np
 import matplotlib.pyplot
@@ -5,6 +7,8 @@ import matplotlib.pyplot
 import scipy.ndimage
 import scipy.misc
 import glob
+
+logger.info("Testing logger")
 
 
 def main():
