@@ -7,10 +7,11 @@ import matplotlib.pyplot
 import scipy.ndimage
 import scipy.misc
 import glob
+from ensure import ensure_annotations
 
 logger.info("Testing logger")
 
-
+@ensure_annotations
 def main():
     # number of input, hidden and output layers
     input_nodes = 784
@@ -77,7 +78,7 @@ def main():
 
     # get the first test record
     all_values = test_data_list[0].split(",")
-    print(all_values[0])
+    logger.info(f"test all_values: {all_values[0]}")
 
     # check the image
     image_array = np.array(all_values[1:], dtype="uint8").reshape((28, 28))
@@ -118,7 +119,7 @@ def main():
     score_card_array = np.array(
         score_card
     )  # <> list & array are different, that's why & how you conver to numpy array
-    print("performance = ", score_card_array.sum() / score_card_array.size)
+    logger.info(f"performance = {score_card_array.sum() / score_card_array.size}")
 
 
 if __name__ == "__main__":

@@ -1,4 +1,6 @@
 import numpy as np
+
+from ensure import ensure_annotations
 import scipy.special
 
 
@@ -44,6 +46,7 @@ class neuralNetwork:
         pass
 
     # train the neural network
+    @ensure_annotations
     def train(self, input_list: list, target_list: list) -> None:
         """This method helps in training the neural network, does a forward pass and backpropagation too
 
@@ -96,7 +99,8 @@ class neuralNetwork:
         pass
 
     # query the neural network
-    def query(self, input_list: list) -> None:
+    @ensure_annotations
+    def query(self, input_list: list) -> any:
         """This takes in a input list, performs a forward pass by calculating dot product and activation applied which acts as input to the next node
 
         Args:
